@@ -1,0 +1,1725 @@
+[liga318.index.html](https://github.com/user-attachments/files/26041881/liga318.index.html)[Uploading liga31<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liga 6ta 318 - Torneo de Pádel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            background: linear-gradient(45deg, #ffd700, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            color: #ffd700;
+        }
+
+        .admin-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            display: none;
+        }
+
+        .admin-badge.active {
+            display: block;
+        }
+
+        .login-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tab:hover, .tab.active {
+            background: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.4);
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .zone-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .zone-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255,215,0,0.3);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .zone-title {
+            font-size: 2.2em;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .zone-badge {
+            background: #ffd700;
+            color: #1e3c72;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.5em;
+            font-weight: bold;
+        }
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .standings-table th {
+            background: rgba(255,215,0,0.2);
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        .standings-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .standings-table tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .pos-1 { background: rgba(255,215,0,0.3) !important; font-weight: bold; }
+        .pos-2 { background: rgba(255,215,0,0.2) !important; font-weight: bold; }
+        .pos-3 { background: rgba(192,192,192,0.2) !important; }
+        .pos-4, .pos-5, .pos-6 { background: rgba(255,255,255,0.05) !important; }
+
+        .team-name {
+            font-weight: bold;
+            text-align: left !important;
+            padding-left: 20px !important;
+        }
+
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .match-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .match-card:hover::before {
+            left: 100%;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1em;
+            gap: 10px;
+        }
+
+        .team-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+        }
+
+        .team-id {
+            font-size: 1.1em;
+            color: #ffd700;
+            margin-bottom: 4px;
+        }
+
+        .team-players {
+            font-size: 0.85em;
+            opacity: 0.9;
+            line-height: 1.2;
+        }
+
+        .vs {
+            background: #ffd700;
+            color: #1e3c72;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .match-result {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 5px 0;
+        }
+
+        .sets-detail {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .btn-admin {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border: none;
+            border-radius: 10px;
+            color: #1e3c72;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-admin:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.4);
+        }
+
+        .btn-admin.hidden {
+            display: none;
+        }
+
+        .classification-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .gold-box {
+            background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.1));
+            border: 2px solid #ffd700;
+        }
+
+        .silver-box {
+            background: linear-gradient(135deg, rgba(192,192,192,0.3), rgba(192,192,192,0.1));
+            border: 2px solid #c0c0c0;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid #ffd700;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .modal h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffd700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        .sets-input {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .sets-input span {
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-save {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+        }
+
+        /* Bracket Styles */
+        .bracket-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .round-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+
+        .round-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #ffd700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .bracket-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .bracket-match {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .bracket-match.pending {
+            opacity: 0.7;
+            border-style: dashed;
+        }
+
+        .bracket-match.finished {
+            border-color: #4CAF50;
+            background: rgba(76,175,80,0.1);
+        }
+
+        .bracket-teams {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .bracket-team {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            border-left: 4px solid transparent;
+        }
+
+        .bracket-team.winner {
+            border-left-color: #4CAF50;
+            background: rgba(76,175,80,0.2);
+            font-weight: bold;
+        }
+
+        .bracket-team.loser {
+            opacity: 0.7;
+        }
+
+        .team-seed {
+            background: rgba(255,215,0,0.3);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            margin-right: 8px;
+        }
+
+        .bracket-result {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .playoffs-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .playoff-bracket {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid;
+        }
+
+        .bracket-gold {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
+        }
+
+        .bracket-silver {
+            border-color: #c0c0c0;
+            background: linear-gradient(135deg, rgba(192,192,192,0.1), rgba(192,192,192,0.05));
+        }
+
+        .bracket-title {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid currentColor;
+        }
+
+        .bracket-gold .bracket-title { color: #ffd700; }
+        .bracket-silver .bracket-title { color: #c0c0c0; }
+
+        .qualified-teams {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .qualified-team {
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid;
+        }
+
+        .qualified-team.gold { border-left-color: #ffd700; }
+        .qualified-team.silver { border-left-color: #c0c0c0; }
+
+        .team-rank {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .stat-label {
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+
+        .legend-1 { background: rgba(255,215,0,0.4); }
+        .legend-2 { background: rgba(255,215,0,0.2); }
+        .legend-3 { background: rgba(192,192,192,0.3); }
+
+        .btn-generate {
+            background: linear-gradient(45deg, #2196F3, #21CBF3);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(33,150,243,0.4);
+        }
+
+        .btn-generate.hidden {
+            display: none;
+        }
+
+        .champion-box {
+            background: linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,215,0,0.1));
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .champion-title {
+            font-size: 2em;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .classification-info { grid-template-columns: 1fr; }
+            .playoffs-container { grid-template-columns: 1fr; }
+            .matches-grid { grid-template-columns: 1fr; }
+            .zone-header { flex-direction: column; text-align: center; }
+            .bracket-grid { grid-template-columns: 1fr; }
+            .match-teams { flex-direction: column; gap: 15px; }
+            .vs { order: -1; }
+            .admin-badge, .login-btn { position: static; margin-top: 15px; display: inline-block; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Liga 6ta 318</h1>
+            <p class="subtitle">Torneo de Pádel - 6ta Categoría</p>
+            <div class="admin-badge" id="adminBadge">👑 MODO ADMINISTRADOR</div>
+            <button class="login-btn" id="loginBtn" onclick="showLoginModal()">🔐 Acceso Admin</button>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('zonas')">Zonas</div>
+            <div class="tab" onclick="showTab('fixture')">Fixture</div>
+            <div class="tab" onclick="showTab('posiciones')">Posiciones</div>
+            <div class="tab" onclick="showTab('copas')">Copas</div>
+        </div>
+
+        <!-- ZONAS -->
+        <div id="zonas" class="content active">
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">
+                        ZONA 1
+                        <span class="zone-badge">6 EQUIPOS</span>
+                    </h2>
+                </div>
+                <div class="teams-list" id="zona1-teams"></div>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">
+                        ZONA 2
+                        <span class="zone-badge">6 EQUIPOS</span>
+                    </h2>
+                </div>
+                <div class="teams-list" id="zona2-teams"></div>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">
+                        ZONA 3
+                        <span class="zone-badge">6 EQUIPOS</span>
+                    </h2>
+                </div>
+                <div class="teams-list" id="zona3-teams"></div>
+            </div>
+        </div>
+
+        <!-- FIXTURE -->
+        <div id="fixture" class="content">
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">ZONA 1 - Fixture</h2>
+                </div>
+                <div class="matches-grid" id="zona1-matches"></div>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">ZONA 2 - Fixture</h2>
+                </div>
+                <div class="matches-grid" id="zona2-matches"></div>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">ZONA 3 - Fixture</h2>
+                </div>
+                <div class="matches-grid" id="zona3-matches"></div>
+            </div>
+        </div>
+
+        <!-- POSICIONES -->
+        <div id="posiciones" class="content">
+            <div class="classification-info">
+                <div class="info-box gold-box">
+                    <h3>🏆 Copa de Oro</h3>
+                    <p>2 primeros de cada zona + 2 mejores terceros (8 equipos)</p>
+                </div>
+                <div class="info-box silver-box">
+                    <h3>🥈 Copa de Plata</h3>
+                    <p>Resto de equipos (10 equipos)</p>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color legend-1"></div>
+                    <span>1° Clasifica a Oro</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-2"></div>
+                    <span>2° Clasifica a Oro</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-3"></div>
+                    <span>3° (mejores 2 a Oro)</span>
+                </div>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">ZONA 1 - Tabla de Posiciones</h2>
+                </div>
+                <table class="standings-table" id="zona1-standings"></table>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">ZONA 2 - Tabla de Posiciones</h2>
+                </div>
+                <table class="standings-table" id="zona2-standings"></table>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">ZONA 3 - Tabla de Posiciones</h2>
+                </div>
+                <table class="standings-table" id="zona3-standings"></table>
+            </div>
+        </div>
+
+        <!-- COPAS -->
+        <div id="copas" class="content">
+            <div class="playoffs-container">
+                <div class="playoff-bracket bracket-gold">
+                    <h2 class="bracket-title">🏆 Copa de Oro</h2>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">8 equipos - Eliminación directa</p>
+                    <div class="qualified-teams" id="gold-teams-list"></div>
+                </div>
+
+                <div class="playoff-bracket bracket-silver">
+                    <h2 class="bracket-title">🥈 Copa de Plata</h2>
+                    <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">10 equipos - Eliminación directa</p>
+                    <div class="qualified-teams" id="silver-teams-list"></div>
+                </div>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">Copa de Oro - Bracket</h2>
+                    <button class="btn-generate" id="btnGoldGenerate" onclick="generateGoldBracket()">Generar Bracket</button>
+                </div>
+                <div id="gold-bracket"></div>
+            </div>
+
+            <div class="zone-container">
+                <div class="zone-header">
+                    <h2 class="zone-title">Copa de Plata - Bracket</h2>
+                    <button class="btn-generate" id="btnSilverGenerate" onclick="generateSilverBracket()">Generar Bracket</button>
+                </div>
+                <div id="silver-bracket"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cargar resultados -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Cargar Resultado</h2>
+            <div id="modalMatchInfo" style="text-align: center; margin-bottom: 20px; font-size: 1.1em;"></div>
+            
+            <div class="form-group">
+                <label>Set 1</label>
+                <div class="sets-input">
+                    <input type="number" id="set1-team1" min="0" max="7" value="0">
+                    <span>-</span>
+                    <input type="number" id="set1-team2" min="0" max="7" value="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Set 2</label>
+                <div class="sets-input">
+                    <input type="number" id="set2-team1" min="0" max="7" value="0">
+                    <span>-</span>
+                    <input type="number" id="set2-team2" min="0" max="7" value="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Set 3 (si aplica)</label>
+                <div class="sets-input">
+                    <input type="number" id="set3-team1" min="0" max="7" value="0">
+                    <span>-</span>
+                    <input type="number" id="set3-team2" min="0" max="7" value="0">
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveResult()">Guardar Resultado</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Acceso Administrador</h2>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="adminPassword" placeholder="Ingrese contraseña">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeLoginModal()">Cancelar</button>
+                <button class="btn-save" onclick="checkLogin()">Ingresar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Contraseña de administrador
+        const ADMIN_PASSWORD = 'juanadmin.318';
+        let isAdmin = sessionStorage.getItem('liga6ta318_admin') === 'true';
+
+        // Datos iniciales
+        const initialData = {
+            zona1: [
+                { id: 'P1', pair: 'Francovich - Weimer', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P2', pair: 'Castro - Cuello', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P3', pair: 'Velasco - Achaga', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P4', pair: 'Aguirre - Altamirano', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P5', pair: 'Ojeda - Simón', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P6', pair: 'Ferreyra - Giai', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 }
+            ],
+            zona2: [
+                { id: 'P6', pair: 'Salvarezza - Cielo', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P7', pair: 'Manresa - Espinosa', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P8', pair: 'Williams - Williams', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P9', pair: 'Romero - Damelio', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P10', pair: 'Moreno - Giani', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P11', pair: 'Talacchia - De Maio', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 }
+            ],
+            zona3: [
+                { id: 'P13', pair: 'Lopez - Beton', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P14', pair: 'Figueroa - Arata', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P15', pair: 'Mañas - Imboden', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P16', pair: 'Zarate - Anselmino', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P17', pair: 'Cassan - Amuchastegui', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 },
+                { id: 'P18', pair: 'Guzmán - Ferraro', pg: 0, pp: 0, sf: 0, sc: 0, gf: 0, gc: 0 }
+            ]
+        };
+
+        let teamsData = JSON.parse(localStorage.getItem('liga6ta318_teams')) || JSON.parse(JSON.stringify(initialData));
+        let matchesData = JSON.parse(localStorage.getItem('liga6ta318_matches')) || {};
+        let goldBracket = JSON.parse(localStorage.getItem('liga6ta318_gold')) || null;
+        let silverBracket = JSON.parse(localStorage.getItem('liga6ta318_silver')) || null;
+        let currentEditingMatch = null;
+        let currentEditingBracket = null;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAdminUI();
+            renderTeams();
+            renderMatches();
+        });
+
+        function updateAdminUI() {
+            const badge = document.getElementById('adminBadge');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (isAdmin) {
+                badge.classList.add('active');
+                loginBtn.textContent = '🔓 Cerrar Sesión';
+                loginBtn.onclick = logout;
+                document.querySelectorAll('.btn-generate').forEach(btn => btn.classList.remove('hidden'));
+            } else {
+                badge.classList.remove('active');
+                loginBtn.textContent = '🔐 Acceso Admin';
+                loginBtn.onclick = showLoginModal;
+                document.querySelectorAll('.btn-generate').forEach(btn => btn.classList.add('hidden'));
+            }
+        }
+
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminPassword').focus();
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function checkLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                sessionStorage.setItem('liga6ta318_admin', 'true');
+                closeLoginModal();
+                updateAdminUI();
+                renderMatches();
+                if (document.getElementById('copas').classList.contains('active')) {
+                    renderGoldBracket();
+                    renderSilverBracket();
+                }
+                alert('✅ Acceso concedido. Ahora puedes cargar resultados.');
+            } else {
+                alert('❌ Contraseña incorrecta');
+            }
+        }
+
+        function logout() {
+            isAdmin = false;
+            sessionStorage.removeItem('liga6ta318_admin');
+            updateAdminUI();
+            renderMatches();
+            if (document.getElementById('copas').classList.contains('active')) {
+                renderGoldBracket();
+                renderSilverBracket();
+            }
+        }
+
+        function generateMatches(zoneName, teams) {
+            const zoneKey = zoneName;
+            
+            if (!matchesData[zoneKey]) {
+                matchesData[zoneKey] = [];
+            }
+
+            if (matchesData[zoneKey].length > 0) {
+                return matchesData[zoneKey];
+            }
+
+            for (let i = 0; i < teams.length; i++) {
+                for (let j = i + 1; j < teams.length; j++) {
+                    matchesData[zoneKey].push({
+                        id: `${zoneKey}_${i}_${j}`,
+                        team1: teams[i],
+                        team2: teams[j],
+                        played: false,
+                        sets: [],
+                        winner: null
+                    });
+                }
+            }
+
+            saveData();
+            return matchesData[zoneKey];
+        }
+
+        function saveData() {
+            localStorage.setItem('liga6ta318_teams', JSON.stringify(teamsData));
+            localStorage.setItem('liga6ta318_matches', JSON.stringify(matchesData));
+            localStorage.setItem('liga6ta318_gold', JSON.stringify(goldBracket));
+            localStorage.setItem('liga6ta318_silver', JSON.stringify(silverBracket));
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'posiciones') {
+                updateAllStandings();
+            } else if (tabName === 'copas') {
+                updateCopasView();
+            }
+        }
+
+        function renderTeams() {
+            ['zona1', 'zona2', 'zona3'].forEach((zone) => {
+                const container = document.getElementById(`${zone}-teams`);
+                const teams = teamsData[zone];
+                
+                let html = '<div class="stats-summary">';
+                teams.forEach(team => {
+                    html += `
+                        <div class="stat-card">
+                            <div style="font-size: 1.2em; margin-bottom: 5px; color: #ffd700;">${team.id}</div>
+                            <div style="font-size: 0.9em;">${team.pair}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            });
+        }
+
+        function renderMatches() {
+            ['zona1', 'zona2', 'zona3'].forEach(zone => {
+                const container = document.getElementById(`${zone}-matches`);
+                const matches = generateMatches(zone, teamsData[zone]);
+                
+                container.innerHTML = matches.map((match, idx) => {
+                    const resultHtml = match.played ? `
+                        <div class="score">${match.sets.filter(s => s.t1 > s.t2).length} - ${match.sets.filter(s => s.t2 > s.t1).length}</div>
+                        <div class="sets-detail">${match.sets.map(s => `${s.t1}-${s.t2}`).join(', ')}</div>
+                    ` : '<span style="opacity: 0.6;">Sin jugar</span>';
+                    
+                    const btnClass = isAdmin ? '' : 'hidden';
+                    const btnText = match.played ? 'Editar Resultado' : 'Cargar Resultado';
+                    
+                    return `
+                        <div class="match-card">
+                            <div class="match-teams">
+                                <div class="team-info">
+                                    <span class="team-id">${match.team1.id}</span>
+                                    <span class="team-players">${match.team1.pair}</span>
+                                </div>
+                                <span class="vs">VS</span>
+                                <div class="team-info">
+                                    <span class="team-id">${match.team2.id}</span>
+                                    <span class="team-players">${match.team2.pair}</span>
+                                </div>
+                            </div>
+                            <div class="match-result">
+                                ${resultHtml}
+                            </div>
+                            <button class="btn-admin ${btnClass}" onclick="openModal('${zone}', ${idx})">
+                                ${btnText}
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            });
+        }
+
+        function openModal(zone, matchIdx) {
+            if (!isAdmin) return;
+            
+            currentEditingMatch = { zone, matchIdx };
+            currentEditingBracket = null;
+            
+            const match = matchesData[zone][matchIdx];
+            
+            document.getElementById('modalTitle').textContent = 'Cargar Resultado - Fase de Zonas';
+            document.getElementById('modalMatchInfo').innerHTML = `
+                <strong>${match.team1.pair}</strong> vs <strong>${match.team2.pair}</strong>
+            `;
+            
+            loadSetsIntoModal(match.sets);
+            
+            document.getElementById('resultModal').classList.add('active');
+        }
+
+        function loadSetsIntoModal(sets) {
+            const setIds = ['set1', 'set2', 'set3'];
+            setIds.forEach((setId, idx) => {
+                document.getElementById(`${setId}-team1`).value = sets[idx]?.t1 || 0;
+                document.getElementById(`${setId}-team2`).value = sets[idx]?.t2 || 0;
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('active');
+            currentEditingMatch = null;
+            currentEditingBracket = null;
+        }
+
+        function saveResult() {
+            if (!isAdmin) return;
+            
+            const sets = [
+                { t1: parseInt(document.getElementById('set1-team1').value) || 0, 
+                  t2: parseInt(document.getElementById('set1-team2').value) || 0 },
+                { t1: parseInt(document.getElementById('set2-team1').value) || 0, 
+                  t2: parseInt(document.getElementById('set2-team2').value) || 0 },
+                { t1: parseInt(document.getElementById('set3-team1').value) || 0, 
+                  t2: parseInt(document.getElementById('set3-team2').value) || 0 }
+            ].filter(s => s.t1 > 0 || s.t2 > 0);
+            
+            if (sets.length < 2) {
+                alert('Debe ingresar al menos 2 sets');
+                return;
+            }
+            
+            const team1Sets = sets.filter(s => s.t1 > s.t2).length;
+            const team2Sets = sets.filter(s => s.t2 > s.t1).length;
+            
+            if (team1Sets === team2Sets) {
+                alert('El partido debe tener un ganador');
+                return;
+            }
+            
+            if (currentEditingMatch) {
+                saveZoneMatch(sets, team1Sets, team2Sets);
+            } else if (currentEditingBracket) {
+                saveBracketMatch(sets, team1Sets, team2Sets);
+            }
+        }
+
+        function saveZoneMatch(sets, team1Sets, team2Sets) {
+            const { zone, matchIdx } = currentEditingMatch;
+            const match = matchesData[zone][matchIdx];
+            
+            if (match.played) {
+                revertStats(zone, match);
+            }
+            
+            match.sets = sets;
+            match.played = true;
+            match.winner = team1Sets > team2Sets ? match.team1.id : match.team2.id;
+            
+            updateStats(zone, match);
+            
+            saveData();
+            renderMatches();
+            closeModal();
+        }
+
+        function saveBracketMatch(sets, team1Sets, team2Sets) {
+            const { cup, round, idx } = currentEditingBracket;
+            const bracket = cup === 'gold' ? goldBracket : silverBracket;
+            
+            let match;
+            if (round === 'final') {
+                match = bracket.final;
+            } else {
+                match = bracket[round][idx];
+            }
+            
+            match.sets = sets;
+            match.played = true;
+            match.winner = team1Sets > team2Sets ? 't1' : 't2';
+            
+            // Avanzar ganador a siguiente ronda
+            advanceWinner(cup, round, idx, match);
+            
+            saveData();
+            if (cup === 'gold') {
+                renderGoldBracket();
+            } else {
+                renderSilverBracket();
+            }
+            closeModal();
+        }
+
+        function advanceWinner(cup, round, idx, match) {
+            const bracket = cup === 'gold' ? goldBracket : silverBracket;
+            const winner = match.winner === 't1' ? match.t1 : match.t2;
+            
+            if (cup === 'gold') {
+                if (round === 'cuartos') {
+                    // Cuartos 0,1 -> Semi 0 | Cuartos 2,3 -> Semi 1
+                    const semiIdx = idx < 2 ? 0 : 1;
+                    const pos = idx % 2 === 0 ? 't1' : 't2';
+                    bracket.semis[semiIdx][pos] = winner;
+                    bracket.semis[semiIdx].pending = false;
+                } else if (round === 'semis') {
+                    const pos = idx === 0 ? 't1' : 't2';
+                    bracket.final[pos] = winner;
+                    bracket.final.pending = false;
+                }
+            } else {
+                if (round === 'preliminar') {
+                    // Ganador va a cuartos[3] como t2
+                    bracket.cuartos[3].t2 = winner;
+                    bracket.cuartos[3].pending = false;
+                } else if (round === 'cuartos') {
+                    // Cuartos 0,1 -> Semi 0 | Cuartos 2,3 -> Semi 1
+                    const semiIdx = idx < 2 ? 0 : 1;
+                    const pos = idx % 2 === 0 ? 't1' : 't2';
+                    bracket.semis[semiIdx][pos] = winner;
+                    bracket.semis[semiIdx].pending = false;
+                } else if (round === 'semis') {
+                    const pos = idx === 0 ? 't1' : 't2';
+                    bracket.final[pos] = winner;
+                    bracket.final.pending = false;
+                }
+            }
+        }
+
+        function revertStats(zone, match) {
+            const t1 = teamsData[zone].find(t => t.id === match.team1.id);
+            const t2 = teamsData[zone].find(t => t.id === match.team2.id);
+            
+            const t1Won = match.sets.filter(s => s.t1 > s.t2).length > match.sets.filter(s => s.t2 > s.t1).length;
+            
+            if (t1Won) {
+                t1.pg--; t2.pp--;
+            } else {
+                t2.pg--; t1.pp--;
+            }
+            
+            match.sets.forEach(s => {
+                if (s.t1 > s.t2) {
+                    t1.sf--; t2.sc--;
+                } else {
+                    t2.sf--; t1.sc--;
+                }
+                t1.gf -= s.t1; t1.gc -= s.t2;
+                t2.gf -= s.t2; t2.gc -= s.t1;
+            });
+        }
+
+        function updateStats(zone, match) {
+            const t1 = teamsData[zone].find(t => t.id === match.team1.id);
+            const t2 = teamsData[zone].find(t => t.id === match.team2.id);
+            
+            const t1Won = match.sets.filter(s => s.t1 > s.t2).length > match.sets.filter(s => s.t2 > s.t1).length;
+            
+            if (t1Won) {
+                t1.pg++; t2.pp++;
+            } else {
+                t2.pg++; t1.pp++;
+            }
+            
+            match.sets.forEach(s => {
+                if (s.t1 > s.t2) {
+                    t1.sf++; t2.sc++;
+                } else {
+                    t2.sf++; t1.sc++;
+                }
+                t1.gf += s.t1; t1.gc += s.t2;
+                t2.gf += s.t2; t2.gc += s.t1;
+            });
+        }
+
+        function getSortedTeams(zone) {
+            return [...teamsData[zone]].sort((a, b) => {
+                if (b.pg !== a.pg) return b.pg - a.pg;
+                const diffA = a.sf - a.sc;
+                const diffB = b.sf - b.sc;
+                if (diffB !== diffA) return diffB - diffA;
+                const diffGA = a.gf - a.gc;
+                const diffGB = b.gf - b.gc;
+                return diffGB - diffGA;
+            });
+        }
+
+        function updateAllStandings() {
+            ['zona1', 'zona2', 'zona3'].forEach(zone => {
+                const table = document.getElementById(`${zone}-standings`);
+                const teams = getSortedTeams(zone);
+                
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Pareja</th>
+                            <th>PG</th>
+                            <th>PP</th>
+                            <th>SF</th>
+                            <th>SC</th>
+                            <th>DS</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${teams.map((t, i) => {
+                            const diffSets = t.sf - t.sc;
+                            const diffGames = t.gf - t.gc;
+                            let rowClass = `pos-${i + 1}`;
+                            
+                            return `
+                                <tr class="${rowClass}">
+                                    <td style="font-size: 1.2em; font-weight: bold;">${i + 1}</td>
+                                    <td class="team-name">${t.pair}</td>
+                                    <td style="color: #4CAF50; font-weight: bold;">${t.pg}</td>
+                                    <td style="color: #f44336;">${t.pp}</td>
+                                    <td>${t.sf}</td>
+                                    <td>${t.sc}</td>
+                                    <td style="color: ${diffSets > 0 ? '#4CAF50' : diffSets < 0 ? '#f44336' : '#fff'}; font-weight: bold;">${diffSets > 0 ? '+' : ''}${diffSets}</td>
+                                    <td>${t.gf}</td>
+                                    <td>${t.gc}</td>
+                                    <td style="color: ${diffGames > 0 ? '#4CAF50' : diffGames < 0 ? '#f44336' : '#fff'}">${diffGames > 0 ? '+' : ''}${diffGames}</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                `;
+            });
+        }
+
+        function getClassification() {
+            const allTeams = [];
+            
+            ['zona1', 'zona2', 'zona3'].forEach(zone => {
+                const sorted = getSortedTeams(zone);
+                sorted.forEach((t, idx) => {
+                    allTeams.push({
+                        ...t,
+                        zone: zone,
+                        position: idx + 1,
+                        zoneName: zone.replace('zona', 'Zona ')
+                    });
+                });
+            });
+
+            const goldByPosition = allTeams.filter(t => t.position <= 2);
+            
+            const thirdPlaces = allTeams.filter(t => t.position === 3).sort((a, b) => {
+                if (b.pg !== a.pg) return b.pg - a.pg;
+                const diffA = a.sf - a.sc;
+                const diffB = b.sf - b.sc;
+                if (diffB !== diffA) return diffB - diffA;
+                return (b.gf - b.gc) - (a.gf - a.gc);
+            });
+            
+            const bestThirds = thirdPlaces.slice(0, 2);
+            const goldTeams = [...goldByPosition, ...bestThirds];
+            
+            const remainingThird = thirdPlaces.slice(2);
+            const silverTeams = allTeams.filter(t => t.position >= 4).concat(remainingThird);
+            
+            return { goldTeams, silverTeams };
+        }
+
+        function updateCopasView() {
+            const { goldTeams, silverTeams } = getClassification();
+            
+            document.getElementById('gold-teams-list').innerHTML = goldTeams.map((t, i) => `
+                <div class="qualified-team gold">
+                    <span>
+                        <span class="team-seed">${t.zoneName} ${t.position}°</span>
+                        ${t.pair}
+                    </span>
+                    <span class="team-rank">PG: ${t.pg}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('silver-teams-list').innerHTML = silverTeams.map((t, i) => `
+                <div class="qualified-team silver">
+                    <span>
+                        <span class="team-seed">${t.zoneName} ${t.position}°</span>
+                        ${t.pair}
+                    </span>
+                    <span class="team-rank">PG: ${t.pg}</span>
+                </div>
+            `).join('');
+
+            renderGoldBracket();
+            renderSilverBracket();
+        }
+
+        function generateGoldBracket() {
+            if (!isAdmin) return;
+            
+            const { goldTeams } = getClassification();
+            
+            // Ordenar para cruces: 1ros vs 2dos/3ros
+            const firsts = goldTeams.filter(t => t.position === 1).sort((a,b) => a.zone.localeCompare(b.zone));
+            const seconds = goldTeams.filter(t => t.position === 2).sort((a,b) => a.zone.localeCompare(b.zone));
+            const thirds = goldTeams.filter(t => t.position === 3);
+            
+            // Cruces definidos:
+            // Cuarto 1: Zona1-1° vs 2doMejor3°
+            // Cuarto 2: Zona2-1° vs Zona3-2°  
+            // Cuarto 3: Zona3-1° vs Zona1-2°
+            // Cuarto 4: Mejor3° vs Zona2-2°
+            
+            goldBracket = {
+                cuartos: [
+                    { t1: firsts[0], t2: thirds[1], played: false, sets: [], winner: null },
+                    { t1: firsts[1], t2: seconds[2], played: false, sets: [], winner: null },
+                    { t1: firsts[2], t2: seconds[0], played: false, sets: [], winner: null },
+                    { t1: thirds[0], t2: seconds[1], played: false, sets: [], winner: null }
+                ],
+                semis: [
+                    { t1: null, t2: null, played: false, sets: [], winner: null, pending: true },
+                    { t1: null, t2: null, played: false, sets: [], winner: null, pending: true }
+                ],
+                final: { t1: null, t2: null, played: false, sets: [], winner: null, pending: true }
+            };
+            
+            saveData();
+            renderGoldBracket();
+        }
+
+        function generateSilverBracket() {
+            if (!isAdmin) return;
+            
+            const { silverTeams } = getClassification();
+            
+            // Ordenar: 3ros restantes, 4tos, 5tos, 6tos
+            const ranked = silverTeams.sort((a, b) => {
+                if (b.pg !== a.pg) return b.pg - a.pg;
+                return (b.sf - b.sc) - (a.sf - a.sc);
+            });
+
+            // 10 equipos: Preliminar entre los 2 peores (9° y 10°)
+            // Cuartos: 1° vs Ganador Preliminar, 2°vs7°, 3°vs6°, 4°vs5°
+            
+            silverBracket = {
+                preliminar: [
+                    { t1: ranked[8], t2: ranked[9], played: false, sets: [], winner: null }
+                ],
+                cuartos: [
+                    { t1: ranked[0], t2: null, played: false, sets: [], winner: null, pending: true, waitingFor: 'preliminar' },
+                    { t1: ranked[1], t2: ranked[6], played: false, sets: [], winner: null },
+                    { t1: ranked[2], t2: ranked[5], played: false, sets: [], winner: null },
+                    { t1: ranked[3], t2: ranked[4], played: false, sets: [], winner: null }
+                ],
+                semis: [
+                    { t1: null, t2: null, played: false, sets: [], winner: null, pending: true },
+                    { t1: null, t2: null, played: false, sets: [], winner: null, pending: true }
+                ],
+                final: { t1: null, t2: null, played: false, sets: [], winner: null, pending: true }
+            };
+            
+            saveData();
+            renderSilverBracket();
+        }
+
+        function renderGoldBracket() {
+            if (!goldBracket) {
+                document.getElementById('gold-bracket').innerHTML = '<p style="text-align: center; padding: 40px; opacity: 0.6;">Haz clic en "Generar Bracket" para crear los cruces (solo Admin)</p>';
+                return;
+            }
+
+            const container = document.getElementById('gold-bracket');
+            let html = '<div class="bracket-container">';
+
+            html += `
+                <div class="round-section">
+                    <h3 class="round-title">Cuartos de Final</h3>
+                    <div class="bracket-grid">
+                        ${goldBracket.cuartos.map((match, idx) => renderBracketMatch(match, 'gold', 'cuartos', idx)).join('')}
+                    </div>
+                </div>
+            `;
+
+            html += `
+                <div class="round-section">
+                    <h3 class="round-title">Semifinales</h3>
+                    <div class="bracket-grid">
+                        ${goldBracket.semis.map((match, idx) => renderBracketMatch(match, 'gold', 'semis', idx)).join('')}
+                    </div>
+                </div>
+            `;
+
+            html += `
+                <div class="round-section">
+                    <h3 class="round-title">Final</h3>
+                    <div class="bracket-grid" style="max-width: 400px; margin: 0 auto;">
+                        ${renderBracketMatch(goldBracket.final, 'gold', 'final', 0)}
+                    </div>
+                </div>
+            `;
+
+            if (goldBracket.final.winner) {
+                const champion = goldBracket.final.winner === 't1' ? goldBracket.final.t1 : goldBracket.final.t2;
+                html += `
+                    <div class="champion-box">
+                        <div class="champion-title">🏆 CAMPEÓN COPA DE ORO 🏆</div>
+                        <div style="font-size: 1.5em;">${champion.pair}</div>
+                        <div style="opacity: 0.8; margin-top: 10px;">${champion.zoneName} ${champion.position}°</div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function renderSilverBracket() {
+            if (!silverBracket) {
+                document.getElementById('silver-bracket').innerHTML = '<p style="text-align: center; padding: 40px; opacity: 0.6;">Haz clic en "Generar Bracket" para crear los cruces (solo Admin)</p>';
+                return;
+            }
+
+            const container = document.getElementById('silver-bracket');
+            let html = '<div class="bracket-container">';
+
+            if (silverBracket.preliminar) {
+                html += `
+                    <div class="round-section">
+                        <h3 class="round-title">Preliminar</h3>
+                        <div class="bracket-grid">
+                            ${silverBracket.preliminar.map((match, idx) => renderBracketMatch(match, 'silver', 'preliminar', idx)).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="round-section">
+                    <h3 class="round-title">Cuartos de Final</h3>
+                    <div class="bracket-grid">
+                        ${silverBracket.cuartos.map((match, idx) => renderBracketMatch(match, 'silver', 'cuartos', idx)).join('')}
+                    </div>
+                </div>
+            `;
+
+            html += `
+                <div class="round-section">
+                    <h3 class="round-title">Semifinales</h3>
+                    <div class="bracket-grid">
+                        ${silverBracket.semis.map((match, idx) => renderBracketMatch(match, 'silver', 'semis', idx)).join('')}
+                    </div>
+                </div>
+            `;
+
+            html += `
+                <div class="round-section">
+                    <h3 class="round-title">Final</h3>
+                    <div class="bracket-grid" style="max-width: 400px; margin: 0 auto;">
+                        ${renderBracketMatch(silverBracket.final, 'silver', 'final', 0)}
+                    </div>
+                </div>
+            `;
+
+            if (silverBracket.final.winner) {
+                const champion = silverBracket.final.winner === 't1' ? silverBracket.final.t1 : silverBracket.final.t2;
+                html += `
+                    <div class="champion-box" style="border-color: #c0c0c0; background: linear-gradient(135deg, rgba(192,192,192,0.4), rgba(192,192,192,0.1));">
+                        <div class="champion-title" style="color: #c0c0c0;">🏆 CAMPEÓN COPA DE PLATA 🏆</div>
+                        <div style="font-size: 1.5em;">${champion.pair}</div>
+                        <div style="opacity: 0.8; margin-top: 10px;">${champion.zoneName} ${champion.position}°</div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function renderBracketMatch(match, cup, round, idx) {
+            const isPending = match.pending || (!match.t1 || !match.t2);
+            const isFinished = match.played;
+            
+            let resultHtml = '';
+            if (isFinished) {
+                const t1Sets = match.sets.filter(s => s.t1 > s.t2).length;
+                const t2Sets = match.sets.filter(s => s.t2 > s.t1).length;
+                resultHtml = `<div class="bracket-result">${t1Sets} - ${t2Sets}</div>`;
+            }
+
+            const canEdit = isAdmin && !isPending;
+            const btnClass = canEdit ? '' : 'hidden';
+            const btnText = isFinished ? 'Editar' : 'Cargar Resultado';
+            
+            return `
+                <div class="bracket-match ${isPending ? 'pending' : ''} ${isFinished ? 'finished' : ''}">
+                    <div class="bracket-teams">
+                        <div class="bracket-team ${match.winner === 't1' ? 'winner' : match.winner === 't2' ? 'loser' : ''}">
+                            <span>${match.t1 ? `<span class="team-seed">${match.t1.zoneName} ${match.t1.position}°</span> ${match.t1.pair}` : 'Por definir'}</span>
+                        </div>
+                        <div class="bracket-team ${match.winner === 't2' ? 'winner' : match.winner === 't1' ? 'loser' : ''}">
+                            <span>${match.t2 ? `<span class="team-seed">${match.t2.zoneName} ${match.t2.position}°</span> ${match.t2.pair}` : 'Por definir'}</span>
+                        </div>
+                    </div>
+                    ${resultHtml}
+                    ${canEdit ? `
+                        <button class="btn-admin" onclick="openBracketModal('${cup}', '${round}', ${idx})" 
+                            ${isFinished ? 'style="background: linear-gradient(45deg, #4CAF50, #45a049);"' : ''}>
+                            ${btnText}
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function openBracketModal(cup, round, idx) {
+            if (!isAdmin) return;
+            
+            currentEditingMatch = null;
+            currentEditingBracket = { cup, round, idx };
+            
+            const bracket = cup === 'gold' ? goldBracket : silverBracket;
+            let match;
+            
+            if (round === 'final') {
+                match = bracket.final;
+            } else {
+                match = bracket[round][idx];
+            }
+            
+            if (!match.t1 || !match.t2) {
+                alert('Este partido aún no tiene ambos equipos definidos');
+                return;
+            }
+            
+            document.getElementById('modalTitle').textContent = `Cargar Resultado - Copa de ${cup === 'gold' ? 'Oro' : 'Plata'}`;
+            document.getElementById('modalMatchInfo').innerHTML = `
+                <strong>${round.toUpperCase()}</strong><br><br>
+                <strong>${match.t1.pair}</strong> (${match.t1.zoneName} ${match.t1.position}°)<br>
+                vs<br>
+                <strong>${match.t2.pair}</strong> (${match.t2.zoneName} ${match.t2.position}°)
+            `;
+            
+            loadSetsIntoModal(match.sets);
+            
+            document.getElementById('resultModal').classList.add('active');
+        }
+
+        // Cerrar modales al hacer click fuera
+        document.getElementById('resultModal').addEventListener('click', (e) => {
+            if (e.target.id === 'resultModal') closeModal();
+        });
+        
+        document.getElementById('loginModal').addEventListener('click', (e) => {
+            if (e.target.id === 'loginModal') closeLoginModal();
+        });
+    </script>
+</body>
+</html>8.index.html…]()
